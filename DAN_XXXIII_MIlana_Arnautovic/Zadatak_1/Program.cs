@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Zadatak_1
@@ -11,6 +13,44 @@ namespace Zadatak_1
     {
         static void Main(string[] args)
         {
+            Thread[] threadsArray =
+           {
+               new Thread(() => Matrix()),
+               new Thread(() => RandomNumbers()),
+               new Thread(() => PrintMatrix()),
+               new Thread(() => Suma()),
+           };
+
+
+            for (int i = 0; i < threadsArray.Length; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    threadsArray[i].Name = string.Format("Thread_{0}", i + 1);
+                }
+                else
+                {
+                    threadsArray[i].Name = string.Format("Thread_{0}{1}", i + 1, i + 1);
+                }
+                Console.WriteLine(threadsArray[i].Name + " is created.\n");
+            }
+            Stopwatch s = new Stopwatch();
+            //start Stopwatch
+            s.Start();
+            threadsArray[0].Start();
+            threadsArray[1].Start();
+            threadsArray[0].Join();
+            threadsArray[1].Join();
+            //stop Stopwatch
+            s.Stop();
+            threadsArray[2].Start();
+            threadsArray[3].Start();
+            TimeSpan ts = s.Elapsed;
+            //Format and display the TimeSpan value.
+            string elapsedTime = String.Format("{0:00}:{1:00}", ts.Seconds, ts.Milliseconds);
+            //printing time on console
+            Console.WriteLine("RunTime for Thread_1 and Thread_22 " + elapsedTime);
+            Console.ReadLine();
         }
         /// <summary>
         /// A method that writes a unit matrix to the file
