@@ -43,13 +43,16 @@ namespace Zadatak_1
             threadsArray[1].Join();
             //stop Stopwatch
             s.Stop();
-            threadsArray[2].Start();
-            threadsArray[3].Start();
+
             TimeSpan ts = s.Elapsed;
             //Format and display the TimeSpan value.
             string elapsedTime = String.Format("{0:00}:{1:00}", ts.Seconds, ts.Milliseconds);
             //printing time on console
             Console.WriteLine("RunTime for Thread_1 and Thread_22 " + elapsedTime);
+
+            threadsArray[2].Start();
+            threadsArray[3].Start();
+          
             Console.ReadLine();
         }
         /// <summary>
